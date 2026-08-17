@@ -11,26 +11,28 @@
 <body>
     <h1>Login</h1>
     <div class="hero-box">
-        <h2 class="box-title">User Login</h2>
+        <h2 class="box-title">Login | User Management</h2>
         <div class="box-para">
             <p>Please enter your credentials to login.</p>
         </div>
 
-        <form>
+        <form action="#" method="get">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username">
+                <input type="text" id="username" name="username" value="">
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password">
+                <input type="password" id="password" name="password" value="">
             </div>
-
-            <div class="btn-group">
-                <a href="index.html" title="Back" class="btn btn-secondary">Back</a>
-                <a href="#" title="Login" class="btn">Login</a>
-            </div>
+            <div class="filed-group">
+                <input type="checkbox" id="remember" name="remember" value="1">
+                <label for="remember">Remember login credentials.</label>
+                <div class="btn-group">
+                    <a href="index.html" title="Back" class="btn btn-secondary">Back</a>
+                    <a href="#" title="Login" class="btn">Login</a>
+                </div>
         </form>
     </div>
     <script src="script.js"></script>
