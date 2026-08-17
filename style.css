@@ -19,7 +19,7 @@
 }
 
 .box-title::after {
-  content: "";
+  content: '';
   display: inline-block;
   background: brown;
   width: 95px;
@@ -58,7 +58,7 @@
 }
 
 .text-link::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   bottom: -2px;
@@ -71,4 +71,14 @@
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
+  margin-bottom: 10px;
+}
+
+.field-group input,
+.field-group label {
+  vertical-align: middle;
+}
+
+.form-group {
+  margin-bottom: 10px;
 }

@@ -11,37 +11,51 @@
 <body>
     <h1>Register</h1>
     <div class="hero-box">
-        <h2 class="box-title">User Registration</h2>
-        <div class="box-para">
-            <p>Create a new account to get started.</p>
-        </div>
-
+        <h2 class="box-title">Sign UP</h2>
         <form>
             <div class="form-group">
+                <label for="fname">Full Name</label>
+                <div></div>
+                <input type="text" id="fname" name="fname">
+
+            </div>
+            <div class="form-group">
                 <label for="username">Username</label>
+                <div></div>
                 <input type="text" id="username" name="username">
             </div>
 
             <div class="form-group">
                 <label for="email">Email</label>
+                <div></div>
                 <input type="email" id="email" name="email">
             </div>
 
             <div class="form-group">
                 <label for="password">Password</label>
+                <div></div>
                 <input type="password" id="password" name="password">
             </div>
 
             <div class="form-group">
                 <label for="confirm-password">Confirm Password</label>
+                <div></div>
                 <input type="password" id="confirm-password" name="confirm-password">
             </div>
 
+            <div class="form-group">
+                <input type="checkbox" id="remember" name="remember" value="1">
+                <label for="remember">I agree to the <a href="#" title="Terms of Service">Terms of Service</a> and <a
+                        href="#" title="Privacy Policy">Privacy Policy</a>.</label>
+            </div>
             <div class="btn-group">
-                <a href="index.html" title="Back" class="btn btn-secondary">Back</a>
-                <a href="#" title="Register" class="btn">Register</a>
+                <!-- <a href="index.html" title="Back" class="btn btn-secondary">Back</a> -->
+                <a href="#" class="btn" title="Register">Register</a>
             </div>
         </form>
+        <hr>
+        <p>Already have an account? <a href="login.html" title="Login">Login</a></p>
+        <hr>
     </div>
     <script src="script.js"></script>
 </body>
