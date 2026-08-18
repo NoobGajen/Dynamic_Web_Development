@@ -4,52 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Login | User Management</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-    <h1>Login</h1>
-    <div class="hero-box">
-        <h2 class="box-title">Login | User Management</h2>
-        <div class="box-para">
-            <p>Please enter your credentials to login.</p>
-        </div>
-
-        <form action="#" method="get">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <div></div>
-                <input type="text" id="username" name="username" value="">
+    <h1 class="page-title">Login | User Management</h1>
+    <div class="form-box">
+        <h2 class="form-title">Sign In</h2>
+        <form action="#" method="GET" name="user_form">
+            <div class="field-group">
+                <label for="username">Username / E-mail</label>
+                <input type="text" id="username" name="username" value=""><span> </span>
             </div>
-
-            <div class="form-group">
+            <div class="field-group">
                 <label for="password">Password</label>
-                <div></div>
                 <input type="password" id="password" name="password" value="">
             </div>
-
-            <div class="form-group">
-                <div></div>
+            <div class="field-group">
                 <input type="checkbox" id="remember" name="remember" value="1">
                 <label for="remember">Remember login credentials.</label>
-
-
-                <div class="btn-group">
-                    <a href="#" title="Login" class="btn">Login</a>
-                    <a href="forgot-password.html" title="forgot-password" class="btn btn-secondary">Forget Password</a>
-                </div>
-                <hr>
-                <!-- Don't you have registeran account? Register Now -->
-                <P>Don't you have a registered account? <a href="register.html" title="Register">Register Now</a></P>
-
-
-                <hr>
-                <!-- Back to home -->
-                <a href="index.html" title="Home">Back to home</a>
+            </div>
+            <button type="submit" name="submit">Login</button>
         </form>
+        <hr>
+        <div class="note">
+            Don't you have an account? <a href="./register.html" class="text-link" title="">Register Now</a>
+        </div>
+        <hr>
+        <a href="./forgot-password.html" class="text-link" title="">Forgot Password?</a>
+        <hr>
+        <a href="./index.html" class="text-link" title="">Back to Home</a>
     </div>
-    <script src="script.js"></script>
+
+    <!-- Scripts -->
+    <script src="./script.js"></script>
 </body>
 
 </html>

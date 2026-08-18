@@ -1,63 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Register | User Management</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./style.css">
 </head>
-
 <body>
-    <h1>Register</h1>
-    <div class="hero-box">
-        <h2 class="box-title">Sign UP</h2>
-        <form>
-            <div class="form-group">
-                <label for="fname">Full Name</label>
-                <div></div>
-                <input type="text" id="fname" name="fname">
-
+    <h1 class="page-title">Register | User Management</h1>
+    <div class="form-box">
+        <h2 class="form-title">Sign Up</h2>
+        <form action="#" method="GET">
+            <div class="field-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" value="">
             </div>
-            <div class="form-group">
+            <div class="field-group">
+                <label for="email">E-Mail</label>
+                <input type="email" id="email" name="email" value="">
+            </div>
+            <div class="field-group">
                 <label for="username">Username</label>
-                <div></div>
-                <input type="text" id="username" name="username">
+                <input type="text" id="username" name="username" value="">
             </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <div></div>
-                <input type="email" id="email" name="email">
-            </div>
-
-            <div class="form-group">
+            <div class="field-group">
                 <label for="password">Password</label>
-                <div></div>
-                <input type="password" id="password" name="password">
+                <input type="password" id="password" name="password" value="">
             </div>
-
-            <div class="form-group">
-                <label for="confirm-password">Confirm Password</label>
-                <div></div>
-                <input type="password" id="confirm-password" name="confirm-password">
+            <div class="field-group">
+                <label for="cpassword">Confrim Password</label>
+                <input type="password" id="cpassword" name="cpassword" value="">
             </div>
-
-            <div class="form-group">
-                <input type="checkbox" id="remember" name="remember" value="1">
-                <label for="remember">I agree to the <a href="#" title="Terms of Service">Terms of Service</a> and <a
-                        href="#" title="Privacy Policy">Privacy Policy</a>.</label>
+            <div class="field-group">
+                <input type="checkbox" id="agree" name="agree" value="1">
+                <label for="agree">I agree with the <a href="#" title="">Terms &amp; Conditions</a>.</label>
             </div>
-            <div class="btn-group">
-                <!-- <a href="index.html" title="Back" class="btn btn-secondary">Back</a> -->
-                <a href="#" class="btn" title="Register">Register</a>
-            </div>
+            <button type="submit" name="submit">Register</button>
         </form>
         <hr>
-        <p>Already have an account? <a href="login.html" title="Login">Login</a></p>
+        <div class="note">
+            Already have an account? <a href="./login.html" class="text-link" title="">Login Now</a>
+        </div>
         <hr>
+        <a href="./index.html" class="text-link" title="">Back to Home</a>
     </div>
-    <script src="script.js"></script>
-</body>
 
+    <!-- Scripts -->
+    <script src="./script.js"></script>
+</body>
 </html>
