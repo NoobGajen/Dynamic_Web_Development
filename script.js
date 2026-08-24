@@ -13,14 +13,53 @@ let form = document.user_form;
 
 if (form != undefined) {
     // console.log(form);
-    form.addEventListener("submit", function (e) {
-        let uname = document.user_form.username;
-        // console.log(uname);
+    let uname = form.username,
+        pwd = form.password,
+        cpwd = form.cpassword,
+        fullname = form.fullname,
+        email = form.email,
+        agree = form.agree;
 
-        if (uname.value == '') {
-            uname.nextElementSibling.innerText = "Username is mandatory.";
+    let ele_arr = [uname, pwd, cpwd, fullname, email, agree];  // Array of input elements
+    ele_arr.forEach(item => {
+        if (item == undefined) return;  // Skip if element is not present in the form
+        let span = document.createElement("span");  // Create a span element
+        span.classList.add("error");                // Add error class to span element 
+        item.parentNode.append(span);
+    });
+
+    form.addEventListener("submit", function (e) {
+        // console.log(uname);
+        if (uname != undefined) {
+            if (uname.value == '') {
+                uname.nextElementSibling.innerText = "Username is mandatory.";
+                e.preventDefault(); //Stops submission of form
+            }
+        }
+        if (pwd != undefined && pwd.value == '') {
+            pwd.nextElementSibling.innerText = "Password is mandatory.";
             e.preventDefault(); //Stops submission of form
-            // alert("Username is mandatory.");
+            // alert("Password is mandatory.");
+        }
+        if (cpwd != undefined && cpwd.value == '') {
+            cpwd.nextElementSibling.innerText = "Confirm Password is mandatory.";
+            e.preventDefault(); //Stops submission of form
+            // alert("Confirm Password is mandatory.");
+        }
+        if (fullname != undefined && fullname.value == '') {
+            fullname.nextElementSibling.innerText = "Full Name is mandatory.";
+            e.preventDefault(); //Stops submission of form
+            // alert("Full Name is mandatory.");
+        }
+        if (email != undefined && email.value == '') {
+            email.nextElementSibling.innerText = "E-mail is mandatory.";
+            e.preventDefault(); //Stops submission of form
+            // alert("E-mail is mandatory.");
+        }
+        if (agree != undefined && !agree.checked) {
+            agree.nextElementSibling.innerText = "You must agree to the terms and conditions.";
+            e.preventDefault(); //Stops submission of form
+            // alert("You must agree to the terms and conditions.");
         }
     });
 
