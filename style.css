@@ -145,4 +145,12 @@ hr {
     font-style: italic;
     color: red;
     line-height: 1;
+
+    .success{
+        display: block;
+        font-size: 16px;
+        font-style: italic;
+        color: green;
+        line-height: 1;
+    }
 }
