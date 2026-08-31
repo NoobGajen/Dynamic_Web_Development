@@ -1,3 +1,15 @@
+<?php
+// $conn = new mysqli("localhost", "root", "", "db_dynamic");
+
+require_once 'db_config.php';
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+if (!$conn)
+    die("Database connection failed.");
+// else echo "Connected.";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,12 +44,12 @@
         </form>
         <hr>
         <div class="note">
-            Don't you have an account? <a href="./register.html" class="text-link" title="">Register Now</a>
+            Don't you have an account? <a href="./register.php" class="text-link" title="">Register Now</a>
         </div>
         <hr>
-        <a href="./forgot-password.html" class="text-link" title="">Forgot Password?</a>
+        <a href="./forgot-password.php" class="text-link" title="">Forgot Password?</a>
         <hr>
-        <a href="./index.html" class="text-link" title="">Back to Home</a>
+        <a href="./index.php" class="text-link" title="">Back to Home</a>
     </div>
 
     <!-- Scripts -->

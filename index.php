@@ -17,9 +17,9 @@
         </div>
         <!-- Emmet:   .btn-group>a[href="#"][title=""][class="btn"]{Link}*3 -->
         <div class="btn-group">
-            <a href="./login.html" title="Login" class="btn">Login</a>
-            <a href="./register.html" title="Register" class="btn btn-secondary">Register</a>
-            <a href="./list.html" title="View All User" class="text-link">View All User &raquo;</a>
+            <a href="./login.php" title="Login" class="btn">Login</a>
+            <a href="./register.php" title="Register" class="btn btn-secondary">Register</a>
+            <a href="./list.php" title="View All User" class="text-link">View All User &raquo;</a>
         </div>
     </div>
 

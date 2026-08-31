@@ -1,5 +1,8 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "db_dynamic");
+// $conn = new mysqli("localhost", "root", "", "db_dynamic");
+
+require_once 'db_config.php';
+$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 if (!$conn)
     die("Database connection failed.");
@@ -65,10 +68,10 @@ if (isset($_POST["submit"])) {
         </form>
         <hr>
         <div class="note">
-            Already have an account? <a href="./login.html" class="text-link" title="">Login Now</a>
+            Already have an account? <a href="./login.php" class="text-link" title="">Login Now</a>
         </div>
         <hr>
-        <a href="./index.html" class="text-link" title="">Back to Home</a>
+        <a href="./index.php" class="text-link" title="">Back to Home</a>
     </div>
 
     <!-- Scripts -->

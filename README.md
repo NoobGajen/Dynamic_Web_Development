@@ -4,7 +4,7 @@ A simple PHP-based user management web application built for **EC3352** coursewo
 
 ## Live Demo
 
-**URL:** [https://dynamic.gajendramahato.com.np](https://dynamic.gajendramahato.com.np)
+**URL:** [gajendra.freedev.app](https://gajendra.freedev.app)
 
 ## Features
 

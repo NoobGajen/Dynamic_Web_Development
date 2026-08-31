@@ -34,10 +34,10 @@
         </form>
         <hr>
         <div class="note">
-            Don't you want to reset password? <a href="./login.html" class="text-link" title="">Back to Login</a>
+            Don't you want to reset password? <a href="./login.php" class="text-link" title="">Back to Login</a>
         </div>
         <hr>
-        <a href="./index.html" class="text-link" title="">Back to Home</a>
+        <a href="./index.php" class="text-link" title="">Back to Home</a>
     </div>
 
     <!-- Scripts -->

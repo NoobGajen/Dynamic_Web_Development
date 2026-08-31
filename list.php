@@ -27,7 +27,7 @@
                 <td>test@email.com</td>
                 <td>Test User</td>
                 <td>
-                    <a href="./edit.html?id=2" title="" class="text-link">Edit</a> &nbsp;|&nbsp;
+                    <a href="./edit.php?id=2" title="" class="text-link">Edit</a> &nbsp;|&nbsp;
                     <a href="./delete.php?id=2" title="" class="text-link danger">Delete</a>
                 </td>
             </tr>
@@ -36,7 +36,7 @@
                 <td>info@email.com</td>
                 <td>Demo User</td>
                 <td>
-                    <a href="./edit.html?id=3" title="" class="text-link">Edit</a> &nbsp;|&nbsp;
+                    <a href="./edit.php?id=3" title="" class="text-link">Edit</a> &nbsp;|&nbsp;
                     <a href="./delete.php?id=3" title="" class="text-link danger">Delete</a>
                 </td>
             </tr>
@@ -45,7 +45,7 @@
     <hr>
     <a href="./logout.php" class="text-link" title="">Logout</a>
     <hr>
-    <a href="./index.html" class="text-link" title="">Back to Home</a>
+    <a href="./index.php" class="text-link" title="">Back to Home</a>
 
     <!-- Scripts -->
      <script src="https://cdn.datatables.net/v/dt/dt-3.0.1/datatables.min.js" ></script>
