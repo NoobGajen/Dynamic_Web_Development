@@ -1,8 +1,7 @@
 <?php
+require_once 'db_config.php';
 // $conn = new mysqli("localhost", "root", "", "db_dynamic");
 
-require_once 'db_config.php';
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
 
 if (!$conn)
     die("Database connection failed.");
