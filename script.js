@@ -62,6 +62,7 @@ if (form != undefined) {
         }
     });
 
+    // Real-time validation on keyup event (check everytime user types something in the input field)
     form.addEventListener("keyup", function (e) {
         let eRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;  // Email Validation Regex
         // if(eRegex.test(email.value) == false) {   // OR
@@ -71,6 +72,14 @@ if (form != undefined) {
             // email.nextElementSibling.innerText = "Email is valid.";
             email.nextElementSibling.innerHTML = "<span class='success'>Email is Valid.</span>";
         }
+
+        // Password Matching checking
+        if (pwd.value !== '' && cpwd.value !== '' && pwd.value !== cpwd.value) {
+            cpwd.nextElementSibling.innerText = "Password does not match.";
+        } else {
+            cpwd.nextElementSibling.innerText = "";
+        }
+
     });
 
 } else {

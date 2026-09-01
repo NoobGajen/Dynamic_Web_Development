@@ -1,31 +1,35 @@
 # Padmashree | User Management System
 
-A simple PHP-based user management web application built for **EC3352** coursework. The project includes registration, login, password reset, and user listing with client-side validation.
+A PHP-based user management web application built for **EC3352** coursework. Supports registration, login, password reset, and user listing with environment-aware database configuration (local dev vs remote production).
 
 ## Live Demo
 
-**URL:** [gajendra.freedev.app](https://gajendra.freedev.app)
+**URL:** [https://dynamic.gajendramahato.com.np](https://dynamic.gajendramahato.com.np)
 
 ## Features
 
-- User Registration
+- User Registration with server-side persistence
 - User Login
 - Forgot Password
 - View All Users (with DataTables integration)
-- Client-side form validation
-- PHP backend support
+- Client-side form validation (JavaScript)
+- Environment-aware database configuration (local/remote auto-switch)
+- Automated deployment to InfinityFree via GitHub Actions
 
 ## Tech Stack
 
 | Technology | Purpose |
 |------------|---------|
+| PHP 8.x | Server-side logic |
+| MySQL / MariaDB | Database |
 | HTML5 | Page structure |
 | CSS3 | Styling |
 | JavaScript (Vanilla) | Client-side validation |
-| PHP | Backend processing |
-| jQuery | DOM manipulation & DataTables |
-| DataTables | Table enhancement |
-| FiveServer | Development server with PHP |
+| jQuery + DataTables | User list table |
+| XAMPP/LAMPP | Local development stack |
+| FiveServer | VS Code dev server with PHP |
+| GitHub Actions | CI/CD deployment |
+| InfinityFree | Production hosting |
 
 ## Database
 
@@ -52,76 +56,122 @@ CREATE TABLE users (
 
 ```
 padmashree/
-├── index.html              # Landing / Home page
-├── login.html              # Login form
-├── register.html           # Registration form
-├── forgot-password.html    # Password reset form
-├── list.html               # Display all users
-├── index1.php              # PHP test file
-├── script.js               # Client-side form validation
-├── style.css               # Global styles
-├── fiveserver.config.js    # FiveServer configuration
-└── README.md               # Project documentation
+├── .github/
+│   └── workflows/
+│       └── deploy.yml         # GitHub Actions: FTP deploy to InfinityFree
+├── .gitignore                 # Excludes db_config.php from VCS
+├── index.php                  # Landing / Home page
+├── login.php                  # Login form
+├── register.php               # Registration form (handles INSERT)
+├── forgot-password.php        # Password reset form
+├── list.php                   # Display all users
+├── db_config.php              # Environment-aware DB config (gitignored)
+├── script.js                  # Client-side form validation
+├── style.css                  # Global styles
+├── fiveserver.config.js       # FiveServer config (excluded from deploy)
+└── README.md                  # Project documentation
 ```
 
-## Page Overview
+## Environment Configuration
 
-| File | Description |
-|------|-------------|
-| `index.html` | Welcome page with navigation to Login, Register, and View All Users |
-| `login.html` | Sign-in form with username/email and password fields |
-| `register.html` | Sign-up form with full name, email, username, password, and terms agreement |
-| `forgot-password.html` | Email-based password reset request form |
-| `list.html` | DataTables-powered user list with Edit and Delete actions |
+`db_config.php` automatically detects the runtime environment:
 
-## Getting Started
+| Environment | Trigger | Database |
+|-------------|---------|----------|
+| **Local** | hostname = `arch`, CLI mode, or `localhost` | `localhost` / `root` / `db_dynamic` |
+| **Remote** | Production (InfinityFree) | `sql113.infinityfree.com` / `if0_42795368_db_dynamic` |
+
+> `db_config.php` is **gitignored** — credentials are never pushed to GitHub. Each developer/environment maintains their own version.
+
+## Local Setup
 
 ### Prerequisites
 
-- PHP 8.x
-- MySQL / MariaDB
-- A modern web browser
+- **XAMPP/LAMPP** (provides PHP + MySQL)
+- MySQL/MariaDB running locally
+- VS Code with FiveServer extension (optional)
 
-### Setup
+### Steps
 
-1. Clone or download the repository:
+1. Clone the repository:
    ```bash
    git clone <repository-url>
    cd padmashree
    ```
 
-2. Import the database schema into MySQL:
-   ```bash
-   mysql -u root -p < schema.sql
+2. Create `db_config.php` in the project root (since it's gitignored):
+   ```php
+   <?php
+   if (gethostname() === 'arch' || PHP_SAPI === 'cli' || str_contains($_SERVER['HTTP_HOST'] ?? '', 'localhost')) {
+       define('DB_HOST', 'localhost');
+       define('DB_USER', 'root');
+       define('DB_PASS', '');
+       define('DB_NAME', 'db_dynamic');
+   } else {
+       define('DB_HOST', 'sql113.infinityfree.com');
+       define('DB_USER', 'if0_42795368');
+       define('DB_PASS', 'your_password');
+       define('DB_NAME', 'if0_42795368_db_dynamic');
+   }
+   $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+   ?>
    ```
 
-3. Start the development server (FiveServer recommended):
-   ```bash
-   # Open the project folder in VS Code and start FiveServer
+3. Start XAMPP services (Apache + MySQL).
+
+4. Create the database and table using the schema above.
+
+5. Point FiveServer to your XAMPP PHP:
+   ```js
+   // fiveserver.config.js
+   module.exports = {
+     php: "/opt/lampp/bin/php"
+   }
    ```
 
-   Or use PHP's built-in server:
-   ```bash
-   php -S localhost:8000
-   ```
+6. Open the project in VS Code and start FiveServer.
 
-4. Open the browser and navigate to:
-   ```
-   http://localhost:8000
-   ```
+## Production Deployment
+
+Deployment is automated via **GitHub Actions** (`.github/workflows/deploy.yml`):
+
+- Triggers on every push to `master`
+- Uses FTP to deploy to InfinityFree's `htdocs/` directory
+- Excludes `.git`, `README.md`, and `fiveserver.config.js`
+
+### Required GitHub Secrets
+
+Configure these in **Settings → Secrets and variables → Actions**:
+
+| Secret | Description |
+|--------|-------------|
+| `FTP_SERVER` | InfinityFree FTP hostname |
+| `FTP_USERNAME` | FTP username |
+| `FTP_PASSWORD` | FTP password |
 
 ## Client-side Validation
 
-`script.js` provides real-time validation for all forms:
-- **Required fields:** Username, Password, Full Name, E-mail
-- **Email format:** Regex-based validation on keyup
-- **Confirm Password:** Mandatory field check
-- **Terms Agreement:** Must be checked before submission
+`script.js` provides inline validation for all forms:
+- Required fields: Username, Password, Full Name, E-Mail
+- Email format validation (regex) on keyup
+- Confirm Password required
+- Terms agreement required before submission
 
-Errors are displayed inline below each field.
+## Current Implementation Status
 
-## Notes
+| Page | Status |
+|------|--------|
+| `index.php` | Done — landing page |
+| `register.php` | Done — inserts user into DB |
+| `login.php` | UI done — auth logic not yet implemented |
+| `forgot-password.php` | UI done — reset logic not yet implemented |
+| `list.php` | UI only — uses hardcoded rows; needs DB query |
+| `edit.php` | Not implemented |
+| `delete.php` | Not implemented |
+| `logout.php` | Not implemented |
 
-- `list.html` currently contains static/demo data. Backend integration with the `users` table is required for dynamic data.
-- `edit.html`, `delete.php`, `logout.php`, and `login.php` are referenced but not yet implemented.
-- Password hashing and server-side authentication logic are not yet implemented.
+## Security Notes
+
+- `register.php` currently uses **string interpolation** for SQL — vulnerable to SQL injection. Migrate to **prepared statements** before production.
+- Passwords are stored in plain text — use `password_hash()` / `password_verify()`.
+- `db_config.php` is gitignored, but `db_config.php` may already be tracked if added before `.gitignore`. Remove it from git history if so: `git rm --cached db_config.php`.

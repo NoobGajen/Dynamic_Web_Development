@@ -6,6 +6,8 @@ if (!$conn)
     die("Database connection failed.");
 // else echo "Connected.";
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -23,7 +25,7 @@ if (!$conn)
     <h1 class="page-title">Login | User Management</h1>
     <div class="form-box">
         <h2 class="form-title">Sign In</h2>
-        <form action="#" method="GET" name="user_form" novalidate>
+        <form action="" method="POST" name="user_form" novalidate>
             <div class="field-group">
                 <label for="username">Username or E-mail</label>
                 <input type="text" id="username" name="username" value="" required>

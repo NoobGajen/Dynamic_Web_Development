@@ -1,6 +1,8 @@
 <?php
+session_start();
+
 require_once 'db_config.php';
-// $conn = new mysqli("localhost", "root", "", "db_dynamic");
+// $conn = new mysqli("localhost", "root", "", "db_dynamic");    // Please uncomment this if you are testing/using locally.
 
 
 if (!$conn)
@@ -17,9 +19,25 @@ if (isset($_POST["submit"])) {
     $cpwn = $_POST["cpassword"];
     $agree = $_POST["agree"];
 
-    $sql = "INSERT INTO users (fullname, email, username, password, agree) VALUES ('$fname', '$email', '$uname', '$pwd','$agree')";
+    if ($pwd == $cpwn) {
 
-    mysqli_query($conn, $sql) or die("Query failed."); // query execution.
+        // Hashing PWD: SHA1, md5, etc. are not secure. Use password_hash() instead.
+        $hashPwd = sha1($pwd);
+        // $hashPwd = password_hash($pwd, PASSWORD_DEFAULT);
+
+        $sql = "INSERT INTO users (fullname, email, username, password, agree) VALUES ('$fname', '$email', '$uname', '$hashPwd','$agree')";
+
+        // mysqli_query($conn, $sql) or die("Query failed."); // query execution.
+        if (mysqli_query($conn, $sql)) {
+            // header("Location: login.php");
+            // $_SESSION['msg'] = "Data insertion successful.";
+            exit;
+        } else {
+            $_SESSION['msg'] = "Data insertion failed.";
+        }
+    } else {
+        // $_SESSION['pwd_msg'] = "Passwords not matched.";
+    }
 }
 ?>
 
@@ -38,7 +56,7 @@ if (isset($_POST["submit"])) {
     <h1 class="page-title">Register | User Management</h1>
     <div class="form-box">
         <h2 class="form-title">Sign Up</h2>
-        <form action="#" method="POST" name="user_form" novalidate>
+        <form action="" method="POST" name="user_form" novalidate>
             <div class="field-group">
                 <label for="fullname">Full Name</label>
                 <input type="text" id="fullname" name="fullname" value="">
@@ -58,6 +76,9 @@ if (isset($_POST["submit"])) {
             <div class="field-group">
                 <label for="cpassword">Confrim Password</label>
                 <input type="password" id="cpassword" name="cpassword" value="">
+                <?php if (isset($_SESSION['pwd_msg'])): ?>
+                    <span class="error"> <?php echo $_SESSION['pwd_msg']; ?> </span>
+                <?php endif; ?>
             </div>
             <div class="field-group">
                 <input type="checkbox" id="agree" name="agree" value="1">
@@ -76,5 +97,6 @@ if (isset($_POST["submit"])) {
     <!-- Scripts -->
     <script src="./script.js"></script>
 </body>
-
 </html>
+
+<!-- <?php unset($_SESSION['pwd_msg']); ?> -->
