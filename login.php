@@ -1,15 +1,3 @@
-<?php
-require_once 'db_config.php';
-// $conn = new mysqli("localhost", "root", "", "db_dynamic");
-
-if (!$conn)
-    die("Database connection failed.");
-// else echo "Connected.";
-
-
-
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,12 +17,12 @@ if (!$conn)
             <div class="field-group">
                 <label for="username">Username or E-mail</label>
                 <input type="text" id="username" name="username" value="" required>
-                <!-- <span class="error"> </span> -->   <!-- Commented because we are adding from JS -->
+                <!-- <span class="error"> </span> --> <!-- Commented because we are adding from JS -->
             </div>
             <div class="field-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" value="">
-                <!-- <span class="error"> </span> -->   <!-- Commented because we are adding from JS -->
+                <!-- <span class="error"> </span> --> <!-- Commented because we are adding from JS -->
             </div>
             <div class="field-group">
                 <input type="checkbox" id="remember" name="remember" value="1">

@@ -1,9 +1,13 @@
 <?php
 session_start();
 
-require_once 'db_config.php';
-// $conn = new mysqli("localhost", "root", "", "db_dynamic");    // Please uncomment this if you are testing/using locally.
-
+$db_config = __DIR__ . '/db_config.php';
+if (file_exists($db_config)) {
+    require_once $db_config;
+} else {
+    // Local dev fallback only — remove before pushing to production
+    $conn = new mysqli("localhost", "root", "", "db_dynamic");
+}
 
 if (!$conn)
     die("Database connection failed.");

@@ -40,21 +40,25 @@ if (form != undefined) {
             e.preventDefault(); //Stops submission of form
             // alert("Password is mandatory.");
         }
+
         if (cpwd != undefined && cpwd.value == '') {
             cpwd.nextElementSibling.innerText = "Confirm Password is mandatory.";
             e.preventDefault(); //Stops submission of form
             // alert("Confirm Password is mandatory.");
         }
+
         if (fullname != undefined && fullname.value == '') {
             fullname.nextElementSibling.innerText = "Full Name is mandatory.";
             e.preventDefault(); //Stops submission of form
             // alert("Full Name is mandatory.");
         }
+
         if (email != undefined && email.value == '') {
             email.nextElementSibling.innerText = "E-mail is mandatory.";
             e.preventDefault(); //Stops submission of form
             // alert("E-mail is mandatory.");
         }
+
         if (agree != undefined && !agree.checked) {
             agree.nextElementSibling.nextElementSibling.innerText = "You must agree to the terms and conditions.";
             e.preventDefault(); //Stops submission of form
@@ -64,9 +68,12 @@ if (form != undefined) {
 
     // Real-time validation on keyup event (check everytime user types something in the input field)
     form.addEventListener("keyup", function (e) {
+
         let eRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;  // Email Validation Regex
         // if(eRegex.test(email.value) == false) {   // OR
-        if (email.value.match(eRegex) == null) {
+        if (email.value == '') {
+            email.nextElementSibling.innerText = "";
+        } else if (email.value.match(eRegex) === null) {
             email.nextElementSibling.innerText = "Email is Invalid.";
         } else {
             // email.nextElementSibling.innerText = "Email is valid.";
