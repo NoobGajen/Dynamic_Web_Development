@@ -59,29 +59,42 @@ padmashree/
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml         # GitHub Actions: FTP deploy to InfinityFree
-├── .gitignore                 # Excludes db_config.php from VCS
+├── .gitignore                 # Excludes db.php and sensitive files from VCS
+├── .library/                  # Third-party libraries
+│   ├── jquery-4.0.0.min.js    # jQuery library
+│   ├── datatables.min.js      # DataTables plugin
+│   └── datatables.min.css     # DataTables styling
 ├── index.php                  # Landing / Home page
-├── login.php                  # Login form
-├── register.php               # Registration form (handles INSERT)
+├── login.php                  # Login form & authentication
+├── register.php               # Registration form (handles user INSERT)
 ├── forgot-password.php        # Password reset form
-├── list.php                   # Display all users
-├── db_config.php              # Environment-aware DB config (gitignored)
+├── list.php                   # Display all users with DataTables
+├── edit.php                   # Edit user (in development)
+├── delete.php                 # Delete user
+├── logout.php                 # Session logout
+├── db.php                     # Database connection (gitignored - create locally)
 ├── script.js                  # Client-side form validation
-├── style.css                  # Global styles
-├── fiveserver.config.js       # FiveServer config (excluded from deploy)
+├── style.css                  # Global styles & responsive design
+├── fiveserver.config.js       # FiveServer configuration for VS Code
 └── README.md                  # Project documentation
 ```
 
 ## Environment Configuration
 
-`db_config.php` automatically detects the runtime environment:
+The `db.php` file contains database connection credentials and is **gitignored** for security. 
 
-| Environment | Trigger | Database |
-|-------------|---------|----------|
-| **Local** | hostname = `arch`, CLI mode, or `localhost` | `localhost` / `root` / `db_dynamic` |
-| **Remote** | Production (InfinityFree) | `sql113.infinityfree.com` / `if0_42795368_db_dynamic` |
+**For Local Development:**
+- Host: `localhost`
+- Username: `root` (XAMPP/LAMPP default)
+- Password: `` (empty by default)
+- Database: `db_dynamic`
 
-> `db_config.php` is **gitignored** — credentials are never pushed to GitHub. Each developer/environment maintains their own version.
+**For Production (InfinityFree):**
+- Update the credentials in your production server
+- Use environment variables or a separate config file
+- Never commit credentials to version control
+
+> The credentials are identical for all localhost setups, so the provided `db.php` template can be used by any developer for local development.
 
 ## Local Setup
 
@@ -91,6 +104,59 @@ padmashree/
 - MySQL/MariaDB running locally
 - VS Code with FiveServer extension (optional)
 
+### Database Configuration (db.php)
+
+Since `db.php` is **gitignored**, you need to create it locally. Create a file named `db.php` in the project root with the following localhost configuration:
+
+```php
+<?php
+// db.php - Database connection configuration
+// This file is gitignored to protect credentials
+
+$servername = "localhost";
+$username = "root";
+$password = "";  // Default XAMPP/LAMPP password is empty
+$database = "db_dynamic";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Database connection failed: " . $conn->connect_error);
+}
+
+// Set charset to UTF-8
+$conn->set_charset("utf8");
+?>
+```
+
+**Environment Variables:**
+- **Host:** `localhost` (local machine)
+- **Username:** `root` (default XAMPP/LAMPP user)
+- **Password:** `` (empty by default)
+- **Database:** `db_dynamic`
+
+### Database Setup
+
+1. Open **phpMyAdmin** (usually at `http://localhost/phpmyadmin`)
+2. Create a new database named `db_dynamic`
+3. Select the database and run the following SQL to create the `users` table:
+
+```sql
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    fullname VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(250) NOT NULL,
+    agree BOOLEAN NULL DEFAULT TRUE,
+    status BOOLEAN NULL DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NULL
+);
+```
+
 ### Steps
 
 1. Clone the repository:
@@ -99,79 +165,71 @@ padmashree/
    cd padmashree
    ```
 
-2. Create `db_config.php` in the project root (since it's gitignored):
-   ```php
-   <?php
-   if (gethostname() === 'arch' || PHP_SAPI === 'cli' || str_contains($_SERVER['HTTP_HOST'] ?? '', 'localhost')) {
-       define('DB_HOST', 'localhost');
-       define('DB_USER', 'root');
-       define('DB_PASS', '');
-       define('DB_NAME', 'db_dynamic');
-   } else {
-       define('DB_HOST', 'sql113.infinityfree.com');
-       define('DB_USER', 'if0_42795368');
-       define('DB_PASS', 'your_password');
-       define('DB_NAME', 'if0_42795368_db_dynamic');
-   }
-   $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-   ?>
+2. Create `db.php` in the project root with the localhost configuration (see above)
+
+3. Start your local server (XAMPP/LAMPP):
+   ```bash
+   # macOS/Linux
+   sudo /opt/lampp/lampp start
+   
+   # Or use XAMPP Control Panel
    ```
 
-3. Start XAMPP services (Apache + MySQL).
+4. Access the application:
+   - **FiveServer:** Open VS Code and use the FiveServer extension
+   - **Apache:** Navigate to `http://localhost/padmashree/` (if in htdocs)
+   - **Direct PHP:** Use VS Code's built-in PHP server or FiveServer
 
-4. Create the database and table using the schema above.
+5. Verify database connection:
+   - Visit the application and try registering a user
+   - If successful, check phpMyAdmin to confirm the user record was created
 
-5. Point FiveServer to your XAMPP PHP:
-   ```js
-   // fiveserver.config.js
-   module.exports = {
-     php: "/opt/lampp/bin/php"
-   }
-   ```
+## FiveServer Configuration
 
-6. Open the project in VS Code and start FiveServer.
+The project includes a `fiveserver.config.js` file configured for **LAMPP/XAMPP**:
 
-## Production Deployment
+```javascript
+module.exports = {
+  php: "/opt/lampp/bin/php"              // macOS/Ubuntu
+//   php: "C:\\xampp\\php\\php.exe"   // Windows
+}
+```
 
-Deployment is automated via **GitHub Actions** (`.github/workflows/deploy.yml`):
+**To use FiveServer with VS Code:**
+1. Install the **FiveServer** extension from the VS Code Marketplace
+2. Right-click on `index.php` → **Open with FiveServer**
+3. FiveServer will start a live development server on `http://localhost:5500`
 
-- Triggers on every push to `master`
-- Uses FTP to deploy to InfinityFree's `htdocs/` directory
-- Excludes `.git`, `README.md`, and `fiveserver.config.js`
+## Troubleshooting
 
-### Required GitHub Secrets
-
-Configure these in **Settings → Secrets and variables → Actions**:
-
-| Secret | Description |
-|--------|-------------|
-| `FTP_SERVER` | InfinityFree FTP hostname |
-| `FTP_USERNAME` | FTP username |
-| `FTP_PASSWORD` | FTP password |
-
-## Client-side Validation
-
-`script.js` provides inline validation for all forms:
-- Required fields: Username, Password, Full Name, E-Mail
-- Email format validation (regex) on keyup
-- Confirm Password required
-- Terms agreement required before submission
-
-## Current Implementation Status
-
-| Page | Status |
-|------|--------|
-| `index.php` | Done — landing page |
-| `register.php` | Done — inserts user into DB |
-| `login.php` | UI done — auth logic not yet implemented |
-| `forgot-password.php` | UI done — reset logic not yet implemented |
-| `list.php` | UI only — uses hardcoded rows; needs DB query |
-| `edit.php` | Not implemented |
-| `delete.php` | Not implemented |
-| `logout.php` | Not implemented |
+| Issue | Solution |
+|-------|----------|
+| **Database connection error** | Verify XAMPP/LAMPP is running; create `db.php` with correct credentials; ensure `db_dynamic` database exists |
+| **Table not found** | Run the SQL schema from Database Setup section in phpMyAdmin |
+| **FiveServer not working** | Check PHP path in `fiveserver.config.js`; ensure XAMPP/LAMPP bin directory exists |
+| **Form validation not working** | Ensure `script.js` is loaded; check browser console for JavaScript errors |
+| **DataTables not loading** | Verify jQuery and DataTables libraries are in `./.library/` folder |
 
 ## Security Notes
 
-- `register.php` currently uses **string interpolation** for SQL — vulnerable to SQL injection. Migrate to **prepared statements** before production.
-- Passwords are stored in plain text — use `password_hash()` / `password_verify()`.
-- `db_config.php` is gitignored, but `db_config.php` may already be tracked if added before `.gitignore`. Remove it from git history if so: `git rm --cached db_config.php`.
+⚠️ **Important:**
+- Never commit `db.php` (credentials) to version control
+- Use `password_hash()` instead of SHA1 for password storage (currently using SHA1)
+- Implement prepared statements to prevent SQL injection
+- Sanitize all user inputs before database operations
+- Use HTTPS in production
+
+## Contributing
+
+1. Create a feature branch: `git checkout -b feature/your-feature`
+2. Commit changes: `git commit -m "Add feature description"`
+3. Push to branch: `git push origin feature/your-feature`
+4. Create a Pull Request
+
+## License
+
+This project is for **EC3352** coursework only.
+
+## Support
+
+For issues or questions, please open an issue on the GitHub repository.

@@ -1,16 +1,17 @@
 <?php
 session_start();
+include_once("./db.php");
 
-$db_config = __DIR__ . '/db_config.php';
-if (file_exists($db_config)) {
-    require_once $db_config;
-} else {
-    // Local dev fallback only — remove before pushing to production
-    $conn = new mysqli("localhost", "root", "", "db_dynamic");
-}
+// $db_config = __DIR__ . '/db_config.php';
+// if (file_exists($db_config)) {
+//     require_once $db_config;
+// } else {
+//     // Local dev fallback only — remove before pushing to production
+//     $conn = new mysqli("localhost", "root", "", "db_dynamic");
+// }
 
-if (!$conn)
-    die("Database connection failed.");
+// if (!$conn)
+//     die("Database connection failed.");
 // else echo "Connected.";
 
 // print_r($_POST);
@@ -34,7 +35,7 @@ if (isset($_POST["submit"])) {
         // mysqli_query($conn, $sql) or die("Query failed."); // query execution.
         if (mysqli_query($conn, $sql)) {
             // header("Location: login.php");
-            // $_SESSION['msg'] = "Data insertion successful.";
+            $_SESSION['msg'] = "Data insertion successful.";
             exit;
         } else {
             $_SESSION['msg'] = "Data insertion failed.";
@@ -60,6 +61,7 @@ if (isset($_POST["submit"])) {
     <h1 class="page-title">Register | User Management</h1>
     <div class="form-box">
         <h2 class="form-title">Sign Up</h2>
+        <?php echo isset($_SESSION['msg']) ? "<span class='notify'>" . $_SESSION['msg'] . "</span>" : ""; ?>
         <form action="" method="POST" name="user_form" novalidate>
             <div class="field-group">
                 <label for="fullname">Full Name</label>
@@ -101,6 +103,8 @@ if (isset($_POST["submit"])) {
     <!-- Scripts -->
     <script src="./script.js"></script>
 </body>
+
 </html>
 
 <!-- <?php unset($_SESSION['pwd_msg']); ?> -->
+<!-- <?php unset($_SESSION['msg']); ?> -->
